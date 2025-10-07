@@ -9,5 +9,4 @@ public class HelpwebDesktopApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HelpwebDesktopApplication.class, args);
 	}
-
 }
