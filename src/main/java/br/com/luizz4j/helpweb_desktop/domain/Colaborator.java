@@ -28,7 +28,7 @@ public abstract class Colaborator implements Serializable {
     @CreationTimestamp
     private LocalDateTime createAt;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RoleEnums roles;
 
     public Colaborator() {

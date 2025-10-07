@@ -3,7 +3,6 @@ package br.com.luizz4j.helpweb_desktop.domain;
 import br.com.luizz4j.helpweb_desktop.domain.enums.RoleEnums;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 import java.util.List;
 
