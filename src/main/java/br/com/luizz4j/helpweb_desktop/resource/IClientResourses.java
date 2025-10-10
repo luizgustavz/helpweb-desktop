@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/client")
 public interface IClientResourses {
 
-
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponse> findByID(@PathVariable Long id);
 
