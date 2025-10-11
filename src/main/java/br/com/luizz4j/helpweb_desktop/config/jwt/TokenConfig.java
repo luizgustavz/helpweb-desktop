@@ -10,11 +10,11 @@ import java.time.Instant;
 @Component
 public class TokenConfig {
 
-    private String secretKey;
+    private final String SECRET = "secret";
 
     public String generatedToken(Client obj){
 
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
         return JWT
                 .create()

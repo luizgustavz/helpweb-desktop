@@ -46,7 +46,7 @@ public class AuthResourceImpl implements IAuthResource {
     }
 
     @Override
-    public ResponseEntity<ClientResponse> signin(ClientRequest obj) {
+    public ResponseEntity<ClientResponse> signup(ClientRequest obj) {
         usecase.save(obj);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
