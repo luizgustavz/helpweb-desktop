@@ -29,17 +29,15 @@ public class ClientUsecaseImpl implements IClientUsecase {
 
     @Override
     public ClientResponse findById(Long id){
-        return mapper.fromDto(repository.findById(id).orElseThrow(IdNotFoundException::new));
+        return mapper
+                .fromDto(repository.findById(id).orElseThrow(IdNotFoundException::new));
     }
 
     @Override
     public Client save(ClientRequest obj) {
-        Client client = new Client();
-
-        client.setName(obj.name());
-        client.setCpf(obj.cpf());
-        client.setEmail(obj.email());
-        client.setPassword(encoder.encode(obj.password()));
-        return repository.save(client);
+        return repository
+                .save(mapper.fromEntity(
+                        obj.withPassword(encoder.encode(obj.password()))
+                ));
     }
 }
