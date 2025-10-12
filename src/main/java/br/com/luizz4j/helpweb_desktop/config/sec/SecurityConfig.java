@@ -27,7 +27,7 @@ public class SecurityConfig {
                         auth -> auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .build();
     }
 
