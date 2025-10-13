@@ -31,14 +31,17 @@ public class TokenConfig {
 
     public Optional<JwtUserData> isValidToken(String token){
 
+        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+
         try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
             DecodedJWT decode = JWT.require(algorithm).build().verify(token);
-            return Optional.of(JwtUserData
-                    .builder()
-                    .id(decode.getClaim("id").asLong())
-                    .email(decode.getSubject())
-                    .build()
+
+            return Optional.of(
+                    JwtUserData
+                        .builder()
+                        .clientId(decode.getClaim("id").asLong())
+                        .email(decode.getSubject())
+                        .build()
             );
         }
         catch (JWTVerificationException e){
