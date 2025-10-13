@@ -50,7 +50,7 @@ public class AuthResourceImpl implements IAuthResource {
         usecase.save(obj);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                    .build();
     }
 }
 

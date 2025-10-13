@@ -1,5 +1,6 @@
 package br.com.luizz4j.helpweb_desktop.config.sec;
 
+import br.com.luizz4j.helpweb_desktop.config.jwt.TokenConfig;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +13,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final SecurityFilter filter;
+
+    public SecurityConfig(SecurityFilter filter) {
+        this.filter = filter;
+    }
+
 
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
@@ -25,9 +34,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth -> auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                                .anyRequest().permitAll())
+                                .anyRequest().authenticated())
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
