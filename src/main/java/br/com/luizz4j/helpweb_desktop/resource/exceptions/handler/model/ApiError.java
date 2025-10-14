@@ -1,4 +1,4 @@
-package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler;
+package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler.model;
 
 import lombok.Builder;
 import lombok.Getter;
