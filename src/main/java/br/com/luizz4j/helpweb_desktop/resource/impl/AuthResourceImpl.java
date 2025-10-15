@@ -22,10 +22,9 @@ public class AuthResourceImpl implements IAuthResource {
 
     @Override
     public ResponseEntity<LoginResponse> login(LoginClientRequest request) {
-        usecase.login(new LoginClientRequest(request.email(), request.password()));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .build();
+                .body(usecase.login(new LoginClientRequest(request.email(), request.password())));
     }
 
     @Override

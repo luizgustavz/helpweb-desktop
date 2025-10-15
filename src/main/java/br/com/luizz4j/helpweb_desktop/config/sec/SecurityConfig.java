@@ -1,6 +1,5 @@
 package br.com.luizz4j.helpweb_desktop.config.sec;
 
-import br.com.luizz4j.helpweb_desktop.config.jwt.TokenConfig;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
