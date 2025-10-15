@@ -1,8 +1,11 @@
 package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler;
 
+import br.com.luizz4j.helpweb_desktop.exceptions.CpfAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.IdNotFoundException;
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.handler.model.ApiError;
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.handler.model.StandardError;
+import br.com.luizz4j.helpweb_desktop.resource.exceptions.message.StandardMessageError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
 public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
 
     @Override
-    public ResponseEntity<ApiError> IdNotFoundHandlerException(IdNotFoundException idNotFoundException, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiError> handlerIdNotFoundException(IdNotFoundException idNotFoundException, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(
                         ApiError.builder()
@@ -30,7 +33,7 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
     }
 
     @Override
-    public ResponseEntity<StandardError> fieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<StandardError> handlerfieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(StandardError.builder()
                         .timestamp(LocalDateTime.now())
@@ -41,6 +44,31 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
                                 .stream()
                                 .map(FieldError::getDefaultMessage)
                                 .collect(Collectors.toSet()))
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+    }
+
+    @Override
+    public ResponseEntity<?> handlerEmailAlreadyRegisterException(EmailAlreadyRegisterException emailAlreadyRegisterException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.CONFLICT.value())
+                        .error(StandardMessageError.INVALID_EMAIL_REGISTER)
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+
+    }
+
+    @Override
+    public ResponseEntity<?> handlerCpfAlreadyRegisterException(CpfAlreadyRegisterException cpfAlreadyRegisterException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.CONFLICT.value())
+                        .error(StandardMessageError.INVALID_CPF_REGISTER)
                         .path(httpServletRequest.getRequestURI())
                         .build()
                 );

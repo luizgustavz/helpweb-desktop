@@ -3,6 +3,8 @@ package br.com.luizz4j.helpweb_desktop.usecase.impl;
 import br.com.luizz4j.helpweb_desktop.config.jwt.TokenConfig;
 import br.com.luizz4j.helpweb_desktop.domain.Client;
 import br.com.luizz4j.helpweb_desktop.domain.repository.IClientRepository;
+import br.com.luizz4j.helpweb_desktop.exceptions.CpfAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.IdNotFoundException;
 import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ClientRequest;
@@ -56,9 +58,20 @@ public class ClientUsecaseImpl implements IClientUsecase {
 
     @Override
     public Client save(ClientRequest obj) {
+        credentialValidator(obj.email(), obj.cpf());
         return repository
                 .save(mapper.fromEntity(
                         obj.withPassword(encoder.encode(obj.password()))
                 ));
+    }
+
+    private void credentialValidator(String email, String cpf){
+       if (repository.existsByEmail(email)){
+           throw new EmailAlreadyRegisterException();
+       };
+
+       if (repository.existsByCpf(cpf)){
+           throw new CpfAlreadyRegisterException();
+       }
     }
 }
