@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class IClientResourceImpl implements IClientResourses {
 
@@ -21,5 +23,12 @@ public class IClientResourceImpl implements IClientResourses {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(usecase.findById(id));
+    }
+
+    @Override
+    public ResponseEntity<List<ClientResponse>> findAll() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(usecase.findAll());
     }
 }
