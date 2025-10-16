@@ -3,29 +3,35 @@ package br.com.luizz4j.helpweb_desktop.domain;
 import br.com.luizz4j.helpweb_desktop.domain.enums.StatusEnums;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_ticket")
 public class Ticket implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String problem;
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private StatusEnums statusAt;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     private LocalDateTime closedAt;
@@ -33,7 +39,7 @@ public class Ticket implements Serializable {
     @ManyToOne @JoinColumn(name = "id_technical")
     private Technical technical;
 
-    @ManyToOne @JoinColumn(name = "id_client")
+    @ManyToOne @JoinColumn(name = "id_client", nullable = true)
     private Client client;
 
     public Ticket(){
@@ -41,7 +47,7 @@ public class Ticket implements Serializable {
     }
 
     public Ticket(
-            String id,
+            UUID id,
             String problem,
             String description,
             StatusEnums statusAt,
@@ -62,7 +68,7 @@ public class Ticket implements Serializable {
         this.client = client;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
