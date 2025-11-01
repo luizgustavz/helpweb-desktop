@@ -11,12 +11,20 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IMapper {
 
-    ClientResponse fromDto(Client obj);
+    // mapper client
+    ClientResponse fromClientResponseDTO(Client obj);
 
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "tickets", ignore = true)
-    Client fromEntity(ClientRequest request);
+    Client fromClient(ClientRequest request);
 
-    List<ClientResponse> fromListDto(List<Client> obj);
+    List<ClientResponse> fromListClientResponseDTO(List<Client> obj);
+
+    // mapper technical
+
+    // mapper ticket
 
 }
+
+
+

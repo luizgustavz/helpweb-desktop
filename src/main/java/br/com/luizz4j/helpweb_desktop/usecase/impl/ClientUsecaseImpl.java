@@ -24,20 +24,20 @@ import java.util.List;
 public class ClientUsecaseImpl implements IClientUsecase {
 
     private final IClientRepository repository;
-    private final IMapper mapper;
+    private final IMapper IMapper;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final TokenConfig token;
 
     public ClientUsecaseImpl(
             IClientRepository repository,
-            IMapper mapper,
+            IMapper IMapper,
             PasswordEncoder encoder,
             AuthenticationManager authenticationManager,
             TokenConfig token
     ) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.IMapper = IMapper;
         this.encoder = encoder;
         this.authenticationManager = authenticationManager;
         this.token = token;
@@ -53,18 +53,18 @@ public class ClientUsecaseImpl implements IClientUsecase {
     }
 
     @Override
-    public ClientResponse findById(Long id){
-        return mapper
-                .fromDto(repository.findById(id).orElseThrow(IdNotFoundException::new));
+    public ClientResponse findClientById(Long id){
+
+        return IMapper.fromClientResponseDTO(repository.findById(id).orElseThrow(IdNotFoundException::new));
     }
 
     @Override
-    public Client save(ClientRequest obj) {
+    public void register(ClientRequest obj) {
         credentialValidator(obj.email(), obj.cpf());
-        return repository
-                .save(mapper.fromEntity(
-                        obj.withPassword(encoder.encode(obj.password()))
-                ));
+
+        Client currentClient = IMapper.fromClient(obj);
+        currentClient.setPassword(encoder.encode(currentClient.getPassword()));
+        repository.save(currentClient);
     }
 
     private void credentialValidator(String email, String cpf){
@@ -79,6 +79,7 @@ public class ClientUsecaseImpl implements IClientUsecase {
 
     @Override
     public List<ClientResponse> findAll() {
-        return mapper.fromListDto(repository.findAll());
+        return IMapper
+                .fromListClientResponseDTO(repository.findAll());
     }
 }

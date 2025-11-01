@@ -29,7 +29,7 @@ public class AuthResourceImpl implements IAuthResource {
 
     @Override
     public ResponseEntity<ClientResponse> signup(ClientRequest obj) {
-        usecase.save(obj);
+        usecase.register(obj);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                     .build();

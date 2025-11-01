@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class IClientResourceImpl implements IClientResourses {
+public class ClientResourceImpl implements IClientResourses {
 
     private final IClientUsecase usecase;
 
-    public IClientResourceImpl(IClientUsecase usecase) {
+    public ClientResourceImpl(IClientUsecase usecase) {
         this.usecase = usecase;
     }
 
@@ -22,7 +22,7 @@ public class IClientResourceImpl implements IClientResourses {
     public ResponseEntity<ClientResponse> findByID(Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(usecase.findById(id));
+                .body(usecase.findClientById(id));
     }
 
     @Override
