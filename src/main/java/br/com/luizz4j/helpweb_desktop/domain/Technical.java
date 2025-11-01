@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class Technical extends Colaborator implements UserDetails {
+    @Serial private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-
-    @OneToMany(mappedBy = "technical")
+    @OneToMany(mappedBy = "technical", fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
     public Technical() {
@@ -28,7 +28,14 @@ public class Technical extends Colaborator implements UserDetails {
             String password,
             RoleEnums roles
     ) {
-        super(id, name, cpf, email, password, roles);
+        super(
+                id,
+                name,
+                cpf,
+                email,
+                password,
+                roles
+        );
         setRoles(RoleEnums.TECHNICAL);
     }
 

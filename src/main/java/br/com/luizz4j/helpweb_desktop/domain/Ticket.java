@@ -14,9 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_ticket")
 public class Ticket implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -36,30 +34,27 @@ public class Ticket implements Serializable {
 
     private LocalDateTime closedAt;
 
-    @ManyToOne @JoinColumn(name = "id_technical")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_technical")
     private Technical technical;
 
-    @ManyToOne @JoinColumn(name = "id_client", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_client", nullable = true)
     private Client client;
 
-    public Ticket(){
+    public Ticket(){};
 
-    }
-
-    public Ticket(
-            UUID id,
-            String problem,
-            String description,
-            StatusEnums statusAt,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt,
-            LocalDateTime closedAt,
-            Technical technical,
-            Client client
+    public Ticket(UUID id,
+                  String problem,
+                  String description,
+                  StatusEnums statusAt,
+                  LocalDateTime createdAt,
+                  LocalDateTime updatedAt,
+                  LocalDateTime closedAt,
+                  Technical technical,
+                  Client client
     ) {
         this.id = id;
-        setProblem(problem);
-        setDescription(description);
+        this.problem = problem;
+        this.description = description;
         this.statusAt = statusAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -72,14 +67,15 @@ public class Ticket implements Serializable {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getProblem() {
         return problem;
     }
 
     public void setProblem(String problem) {
-        if (problem == null || problem.trim().isBlank() || problem.length() < 6){
-            throw new IllegalArgumentException();
-        }
         this.problem = problem;
     }
 
@@ -88,9 +84,6 @@ public class Ticket implements Serializable {
     }
 
     public void setDescription(String description) {
-        if (description == null || description.length() < 20){
-            throw new IllegalArgumentException();
-        }
         this.description = description;
     }
 
@@ -140,16 +133,5 @@ public class Ticket implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Ticket ticket)) return false;
-        return Objects.equals(id, ticket.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

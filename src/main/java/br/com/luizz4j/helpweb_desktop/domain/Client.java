@@ -2,19 +2,20 @@ package br.com.luizz4j.helpweb_desktop.domain;
 
 import br.com.luizz4j.helpweb_desktop.domain.enums.RoleEnums;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class Client extends Colaborator implements UserDetails {
+    @Serial private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
     public Client() {
@@ -29,7 +30,14 @@ public class Client extends Colaborator implements UserDetails {
             String password,
             RoleEnums roles
     ) {
-        super(id, name, cpf, email, password, roles);
+        super(
+                id,
+                name,
+                cpf,
+                email,
+                password,
+                roles
+        );
         setRoles(RoleEnums.COLABORATOR);
     }
 
