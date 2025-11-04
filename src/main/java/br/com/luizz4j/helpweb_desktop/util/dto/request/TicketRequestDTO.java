@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 public record TicketRequestDTO(
 
         @NotBlank @Length(min = 6)
-        String pronblem,
+        String problem,
 
         @NotBlank
         String description

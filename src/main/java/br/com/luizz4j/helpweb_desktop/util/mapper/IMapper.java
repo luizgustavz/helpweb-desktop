@@ -5,6 +5,7 @@ import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ClientRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.ClientResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -27,6 +28,8 @@ public interface IMapper {
     // mapper ticket
 
     Ticket fromTicket(TicketRequestDTO dto);
+
+    List<TicketResponseDTO> fromListTicketResponseDTO(List<Ticket> obj);
 
 }
 

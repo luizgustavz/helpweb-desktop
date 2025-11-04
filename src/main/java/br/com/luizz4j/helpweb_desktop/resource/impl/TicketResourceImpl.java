@@ -3,9 +3,12 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 import br.com.luizz4j.helpweb_desktop.resource.ITicketResource;
 import br.com.luizz4j.helpweb_desktop.usecase.impl.TicketUsecaseImpl;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class TicketResourceImpl implements ITicketResource {
@@ -24,5 +27,12 @@ public class TicketResourceImpl implements ITicketResource {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @Override
+    public ResponseEntity<List<TicketResponseDTO>> listTicketsOPEN() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(usecase.listTicketOPEN());
     }
 }
