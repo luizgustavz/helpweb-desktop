@@ -15,7 +15,7 @@ public interface IGlobalHandlerException {
     public ResponseEntity<?> handlerIdNotFoundException(IdNotFoundException idNotFoundException, HttpServletRequest httpServletRequest);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handlerfieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest);
+    public ResponseEntity<?> handlerFieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest);
 
     @ExceptionHandler(EmailAlreadyRegisterException.class)
     public ResponseEntity<?> handlerEmailAlreadyRegisterException(EmailAlreadyRegisterException emailAlreadyRegisterException, HttpServletRequest httpServletRequest);

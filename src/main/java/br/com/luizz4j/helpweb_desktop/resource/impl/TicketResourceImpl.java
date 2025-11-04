@@ -1,0 +1,28 @@
+package br.com.luizz4j.helpweb_desktop.resource.impl;
+
+import br.com.luizz4j.helpweb_desktop.resource.ITicketResource;
+import br.com.luizz4j.helpweb_desktop.usecase.impl.TicketUsecaseImpl;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TicketResourceImpl implements ITicketResource {
+
+    private final TicketUsecaseImpl usecase;
+
+    public TicketResourceImpl(
+            TicketUsecaseImpl usecase
+    ) {
+        this.usecase = usecase;
+    }
+
+    @Override
+    public ResponseEntity<Void> create(TicketRequestDTO dto) {
+        usecase.createTicket(dto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+}

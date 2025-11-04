@@ -33,7 +33,7 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
     }
 
     @Override
-    public ResponseEntity<StandardError> handlerfieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<StandardError> handlerFieldsInvalidException(MethodArgumentNotValidException methodArgumentNotValidException, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(StandardError.builder()
                         .timestamp(LocalDateTime.now())
