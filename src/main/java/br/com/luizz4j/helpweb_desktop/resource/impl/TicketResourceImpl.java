@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class TicketResourceImpl implements ITicketResource {
@@ -34,5 +36,12 @@ public class TicketResourceImpl implements ITicketResource {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(usecase.listTicketOPEN());
+    }
+
+    @Override
+    public ResponseEntity<TicketResponseDTO> findById(UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(usecase.findById(id));
     }
 }

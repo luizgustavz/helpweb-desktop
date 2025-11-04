@@ -10,6 +10,8 @@ import br.com.luizz4j.helpweb_desktop.util.mapper.IMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TicketUsecaseImpl implements ITicketUsecase {
@@ -37,5 +39,13 @@ public class TicketUsecaseImpl implements ITicketUsecase {
     public List<TicketResponseDTO> listTicketOPEN() {
         List<Ticket> listTicketsByStatusOPEN = repository.findByStatus(StatusEnums.OPEN);
         return mapper.fromListTicketResponseDTO(listTicketsByStatusOPEN);
+    }
+
+    // method: find by id
+
+    @Override
+    public TicketResponseDTO findById(UUID id) {
+        Ticket currentTicket = repository.findById(id).orElse(null);
+        return mapper.fromTicketDTO(currentTicket);
     }
 }

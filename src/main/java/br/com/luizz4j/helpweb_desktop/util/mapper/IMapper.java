@@ -31,6 +31,8 @@ public interface IMapper {
 
     List<TicketResponseDTO> fromListTicketResponseDTO(List<Ticket> obj);
 
+    TicketResponseDTO fromTicketDTO(Ticket obj);
+
 }
 
 
