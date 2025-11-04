@@ -4,6 +4,7 @@ import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.domain.enums.StatusEnums;
 import br.com.luizz4j.helpweb_desktop.domain.repository.ITicketRepository;
 import br.com.luizz4j.helpweb_desktop.usecase.ITicketUsecase;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
 import br.com.luizz4j.helpweb_desktop.util.mapper.IMapper;
@@ -47,5 +48,20 @@ public class TicketUsecaseImpl implements ITicketUsecase {
     public TicketResponseDTO findById(UUID id) {
         Ticket currentTicket = repository.findById(id).orElse(null);
         return mapper.fromTicketDTO(currentTicket);
+    }
+
+    // method : change ticket
+
+    @Override
+    public void changeTicket(UUID id, ChangeTicketDTO dto) {
+        Ticket ticketUpdate = repository.findById(id).orElse(null);
+        if (ticketUpdate == null){
+            throw new IllegalArgumentException("Ticket não encontrado");
+        }
+        ticketUpdate.setProblem(dto.problem());
+        ticketUpdate.setDescription(dto.description());
+        repository.save(ticketUpdate);
+
+
     }
 }

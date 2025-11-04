@@ -2,6 +2,7 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.ITicketResource;
 import br.com.luizz4j.helpweb_desktop.usecase.impl.TicketUsecaseImpl;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -43,5 +44,13 @@ public class TicketResourceImpl implements ITicketResource {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(usecase.findById(id));
+    }
+
+    @Override
+    public ResponseEntity<TicketResponseDTO> changeTicket(UUID id, ChangeTicketDTO dto) {
+        usecase.changeTicket(id, dto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }
