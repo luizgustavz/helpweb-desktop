@@ -1,6 +1,6 @@
 package br.com.luizz4j.helpweb_desktop.resource;
 
-import br.com.luizz4j.helpweb_desktop.util.dto.response.ClientResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

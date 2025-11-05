@@ -1,7 +1,6 @@
-package br.com.luizz4j.helpweb_desktop.util.dto.request;
+package br.com.luizz4j.helpweb_desktop.util.dto.request.client;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 public record LoginClientRequest(
         @Email

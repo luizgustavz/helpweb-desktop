@@ -1,4 +1,4 @@
-package br.com.luizz4j.helpweb_desktop.util.dto.request;
+package br.com.luizz4j.helpweb_desktop.util.dto.request.ticket;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

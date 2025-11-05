@@ -1,4 +1,4 @@
-package br.com.luizz4j.helpweb_desktop.util.dto.request;
+package br.com.luizz4j.helpweb_desktop.util.dto.request.client;
 
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.message.StandardMessageError;
 import jakarta.validation.constraints.Email;

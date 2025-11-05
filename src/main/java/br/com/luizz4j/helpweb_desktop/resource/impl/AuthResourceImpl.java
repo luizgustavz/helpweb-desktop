@@ -2,10 +2,10 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.IAuthResource;
 import br.com.luizz4j.helpweb_desktop.usecase.impl.ClientUsecaseImpl;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.ClientRequest;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.LoginClientRequest;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.ClientResponse;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.LoginResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ClientRequest;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.LoginClientRequest;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

@@ -4,14 +4,13 @@ import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.domain.enums.StatusEnums;
 import br.com.luizz4j.helpweb_desktop.domain.repository.ITicketRepository;
 import br.com.luizz4j.helpweb_desktop.usecase.ITicketUsecase;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.ChangeTicketDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;
 import br.com.luizz4j.helpweb_desktop.util.mapper.IMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

@@ -1,8 +1,8 @@
 package br.com.luizz4j.helpweb_desktop.resource;
 
-import br.com.luizz4j.helpweb_desktop.util.dto.request.ChangeTicketDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

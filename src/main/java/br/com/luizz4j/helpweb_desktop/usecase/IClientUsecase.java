@@ -1,9 +1,9 @@
 package br.com.luizz4j.helpweb_desktop.usecase;
 
-import br.com.luizz4j.helpweb_desktop.util.dto.request.ClientRequest;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.LoginClientRequest;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.ClientResponse;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.LoginResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ClientRequest;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.LoginClientRequest;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.LoginResponse;
 
 import java.util.List;
 
@@ -16,6 +16,8 @@ public interface IClientUsecase {
     LoginResponse login(LoginClientRequest request);
 
     List<ClientResponse> findAll();
+
+
 
 
 

@@ -1,4 +1,4 @@
-package br.com.luizz4j.helpweb_desktop.util.dto.response;
+package br.com.luizz4j.helpweb_desktop.util.dto.response.client;
 
 import br.com.luizz4j.helpweb_desktop.domain.enums.RoleEnums;
 

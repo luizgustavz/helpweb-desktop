@@ -2,15 +2,14 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.ITicketResource;
 import br.com.luizz4j.helpweb_desktop.usecase.impl.TicketUsecaseImpl;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.ChangeTicketDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.request.TicketRequestDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.TicketResponseDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

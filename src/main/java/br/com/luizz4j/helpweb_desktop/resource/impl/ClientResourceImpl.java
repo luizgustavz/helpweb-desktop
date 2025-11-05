@@ -2,7 +2,7 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.IClientResourses;
 import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.ClientResponse;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
