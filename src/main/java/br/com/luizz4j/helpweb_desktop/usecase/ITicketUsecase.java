@@ -1,5 +1,6 @@
 package br.com.luizz4j.helpweb_desktop.usecase;
 
+import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;
@@ -16,5 +17,7 @@ public interface ITicketUsecase {
     TicketResponseDTO findById(UUID id);
 
     void changeTicket(UUID id, ChangeTicketDTO dto);
+
+    void closedTicket(UUID id);
 
 }

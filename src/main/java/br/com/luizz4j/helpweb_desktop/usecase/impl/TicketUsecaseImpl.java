@@ -10,6 +10,7 @@ import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO
 import br.com.luizz4j.helpweb_desktop.util.mapper.IMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,7 +61,15 @@ public class TicketUsecaseImpl implements ITicketUsecase {
         ticketUpdate.setProblem(dto.problem());
         ticketUpdate.setDescription(dto.description());
         repository.save(ticketUpdate);
+    }
 
+    // method: closed ticket
 
+    @Override
+    public void closedTicket(UUID id) {
+        Ticket ticket = repository.findById(id).orElseThrow( () -> new IllegalArgumentException("Ticket não encontrado"));
+        ticket.setStatusAt(StatusEnums.CLOSED);
+        ticket.setClosedAt(LocalDateTime.now());
+        repository.save(ticket);
     }
 }

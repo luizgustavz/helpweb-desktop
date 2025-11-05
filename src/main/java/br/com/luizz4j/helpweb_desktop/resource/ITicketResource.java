@@ -24,4 +24,7 @@ public interface ITicketResource {
 
     @PutMapping("/{id}/change")
     ResponseEntity<TicketResponseDTO> changeTicket(@PathVariable UUID id, @RequestBody @Valid ChangeTicketDTO dto);
+
+    @PutMapping("/{id}/closed")
+    ResponseEntity<TicketResponseDTO> closedTicket(@PathVariable UUID id);
 }

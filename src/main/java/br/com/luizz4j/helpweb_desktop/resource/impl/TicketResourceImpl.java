@@ -17,9 +17,7 @@ public class TicketResourceImpl implements ITicketResource {
 
     private final TicketUsecaseImpl usecase;
 
-    public TicketResourceImpl(
-            TicketUsecaseImpl usecase
-    ) {
+    public TicketResourceImpl(TicketUsecaseImpl usecase) {
         this.usecase = usecase;
     }
 
@@ -48,6 +46,14 @@ public class TicketResourceImpl implements ITicketResource {
     @Override
     public ResponseEntity<TicketResponseDTO> changeTicket(UUID id, ChangeTicketDTO dto) {
         usecase.changeTicket(id, dto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @Override
+    public ResponseEntity<TicketResponseDTO> closedTicket(UUID id) {
+        usecase.closedTicket(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
