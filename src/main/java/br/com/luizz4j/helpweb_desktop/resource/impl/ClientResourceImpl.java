@@ -2,6 +2,7 @@ package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.IClientResourses;
 import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ChangePasswordDefaultRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,13 @@ public class ClientResourceImpl implements IClientResourses {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(usecase.findAll());
+    }
+
+    @Override
+    public ResponseEntity<Void> changePassword(Long id, ChangePasswordDefaultRequest request) {
+        usecase.changePasswordDefault(id, request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }

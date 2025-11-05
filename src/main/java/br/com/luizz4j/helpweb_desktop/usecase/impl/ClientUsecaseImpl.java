@@ -7,6 +7,7 @@ import br.com.luizz4j.helpweb_desktop.exceptions.CpfAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.IdNotFoundException;
 import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ChangePasswordDefaultRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ClientRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.client.LoginClientRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClientUsecaseImpl implements IClientUsecase {
@@ -81,5 +83,17 @@ public class ClientUsecaseImpl implements IClientUsecase {
     public List<ClientResponse> findAll() {
         return IMapper
                 .fromListClientResponseDTO(repository.findAll());
+    }
+
+    @Override
+    public void changePasswordDefault(Long id, ChangePasswordDefaultRequest changePasswordDefaultRequest) {
+
+        Client client = repository.findById(id).orElseThrow(IdNotFoundException::new);
+
+        if (!encoder.matches(changePasswordDefaultRequest.password(), client.getPassword())){
+            throw new IllegalArgumentException("Informe a ultima senha");
+        }
+        client.setPassword(encoder.encode(changePasswordDefaultRequest.newPassword()));
+        repository.save(client);
     }
 }
