@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: helpweb-desktop
+
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: ${URL}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${USERNAME}
+    password: ${PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 9091
+
+
