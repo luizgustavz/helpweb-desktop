@@ -1,8 +1,9 @@
 package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler;
 
-import br.com.luizz4j.helpweb_desktop.exceptions.CpfAlreadyRegisterException;
-import br.com.luizz4j.helpweb_desktop.exceptions.EmailAlreadyRegisterException;
-import br.com.luizz4j.helpweb_desktop.exceptions.IdNotFoundException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.CpfAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.EmailAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.ClientNotFoundException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.PasswordDoesNotMatchException;
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.handler.model.ApiError;
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.handler.model.StandardError;
 import br.com.luizz4j.helpweb_desktop.resource.exceptions.message.StandardMessageError;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
 
     @Override
-    public ResponseEntity<ApiError> handlerIdNotFoundException(IdNotFoundException idNotFoundException, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiError> handlerIdNotFoundException(ClientNotFoundException CLientNotFoundException, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(
                         ApiError.builder()
@@ -69,6 +70,18 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
                         .timestamp(LocalDateTime.now())
                         .code(HttpStatus.CONFLICT.value())
                         .error(StandardMessageError.INVALID_CPF_REGISTER)
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+    }
+
+    @Override
+    public ResponseEntity<?> handlerPasswordDoesNotMatchException(PasswordDoesNotMatchException passwordDoesNotMatchException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.CONFLICT.value())
+                        .error(StandardMessageError.PASSWORD_DOES_NOT_MATCH)
                         .path(httpServletRequest.getRequestURI())
                         .build()
                 );

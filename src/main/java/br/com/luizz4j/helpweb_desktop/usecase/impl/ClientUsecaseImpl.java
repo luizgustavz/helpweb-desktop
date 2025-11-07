@@ -3,9 +3,10 @@ package br.com.luizz4j.helpweb_desktop.usecase.impl;
 import br.com.luizz4j.helpweb_desktop.config.jwt.TokenConfig;
 import br.com.luizz4j.helpweb_desktop.domain.Client;
 import br.com.luizz4j.helpweb_desktop.domain.repository.IClientRepository;
-import br.com.luizz4j.helpweb_desktop.exceptions.CpfAlreadyRegisterException;
-import br.com.luizz4j.helpweb_desktop.exceptions.EmailAlreadyRegisterException;
-import br.com.luizz4j.helpweb_desktop.exceptions.IdNotFoundException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.CpfAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.EmailAlreadyRegisterException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.ClientNotFoundException;
+import br.com.luizz4j.helpweb_desktop.exceptions.user.PasswordDoesNotMatchException;
 import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ChangePasswordDefaultRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ClientRequest;
@@ -20,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ClientUsecaseImpl implements IClientUsecase {
@@ -57,7 +57,7 @@ public class ClientUsecaseImpl implements IClientUsecase {
     @Override
     public ClientResponse findClientById(Long id){
 
-        return IMapper.fromClientResponseDTO(repository.findById(id).orElseThrow(IdNotFoundException::new));
+        return IMapper.fromClientResponseDTO(repository.findById(id).orElseThrow(ClientNotFoundException::new));
     }
 
     @Override
@@ -88,10 +88,10 @@ public class ClientUsecaseImpl implements IClientUsecase {
     @Override
     public void changePasswordDefault(Long id, ChangePasswordDefaultRequest changePasswordDefaultRequest) {
 
-        Client client = repository.findById(id).orElseThrow(IdNotFoundException::new);
+        Client client = repository.findById(id).orElseThrow(ClientNotFoundException::new);
 
         if (!encoder.matches(changePasswordDefaultRequest.password(), client.getPassword())){
-            throw new IllegalArgumentException("Informe a ultima senha");
+            throw new PasswordDoesNotMatchException();
         }
         client.setPassword(encoder.encode(changePasswordDefaultRequest.newPassword()));
         repository.save(client);

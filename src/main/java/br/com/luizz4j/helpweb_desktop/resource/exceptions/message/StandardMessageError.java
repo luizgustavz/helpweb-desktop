@@ -10,5 +10,7 @@ public abstract class StandardMessageError {
    public static final String INVALID_CPF_NOTBLANK = "O CPF é obrigatorio";
    public static final String INVALID_CPF_REGISTER = "O CPF informado já foi registrado";
 
+   public static final String PASSWORD_DOES_NOT_MATCH = "A senha informada não corresponde a ultima senha";
+
 
 }

@@ -3,4 +3,4 @@ spring:
     name: helpweb-desktop
 
   profiles:
-    active: test
+    active: dev
