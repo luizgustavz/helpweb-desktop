@@ -12,5 +12,13 @@ public abstract class StandardMessageError {
 
    public static final String PASSWORD_DOES_NOT_MATCH = "A senha informada não corresponde a ultima senha";
 
+   public static final String INVALID_TICKET_NOTBLANK = "Descreva em poucas palavras o problema";
+   public static final String INVALID_TICKET_NOTNULL = "Esse campo deve ser preenchido";
+
+   public static final String INVALID_DESCRIPTION_NOTBLANK = "Informe uma breve descrição do problema";
+   public static final String INVALID_DESCRIPTION_NOTNULL = "Esse campo deve ser preenchido";
+
+
+
 
 }
