@@ -1,5 +1,7 @@
 package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler;
 
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketInOpenStatusException;
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketNotFoundException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.CpfAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.ClientNotFoundException;
@@ -82,6 +84,30 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
                         .timestamp(LocalDateTime.now())
                         .code(HttpStatus.CONFLICT.value())
                         .error(StandardMessageError.PASSWORD_DOES_NOT_MATCH)
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+    }
+
+    @Override
+    public ResponseEntity<?> handlerTicketNotFoundException(TicketNotFoundException ticketNotFoundException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.NOT_FOUND.value())
+                        .error(StandardMessageError.TICKET_NOT_FOUND)
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+    }
+
+    @Override
+    public ResponseEntity<?> handlerTicketInOpenStatusException(TicketInOpenStatusException ticketInOpenStatusException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.CONFLICT.value())
+                        .error(StandardMessageError.TICKET_IN_STATUS_OPEN)
                         .path(httpServletRequest.getRequestURI())
                         .build()
                 );

@@ -1,5 +1,7 @@
 package br.com.luizz4j.helpweb_desktop.resource.exceptions.handler;
 
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketInOpenStatusException;
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketNotFoundException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.CpfAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.ClientNotFoundException;
@@ -25,5 +27,11 @@ public interface IGlobalHandlerException {
 
     @ExceptionHandler(PasswordDoesNotMatchException.class)
     ResponseEntity<?> handlerPasswordDoesNotMatchException(PasswordDoesNotMatchException passwordDoesNotMatchException, HttpServletRequest httpServletRequest);
+
+    @ExceptionHandler(TicketNotFoundException.class)
+    ResponseEntity<?> handlerTicketNotFoundException(TicketNotFoundException ticketNotFoundException, HttpServletRequest httpServletRequest);
+
+    @ExceptionHandler(TicketInOpenStatusException.class)
+    ResponseEntity<?> handlerTicketInOpenStatusException(TicketInOpenStatusException ticketInOpenStatusException, HttpServletRequest httpServletRequest);
 
 }

@@ -3,6 +3,8 @@ package br.com.luizz4j.helpweb_desktop.usecase.impl;
 import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.domain.enums.StatusEnums;
 import br.com.luizz4j.helpweb_desktop.domain.repository.ITicketRepository;
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketInOpenStatusException;
+import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketNotFoundException;
 import br.com.luizz4j.helpweb_desktop.usecase.ITicketUsecase;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
@@ -54,10 +56,7 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public void changeTicket(UUID id, ChangeTicketDTO dto) {
-        Ticket ticketUpdate = repository.findById(id).orElse(null);
-        if (ticketUpdate == null){
-            throw new IllegalArgumentException("Ticket não encontrado");
-        }
+        Ticket ticketUpdate = repository.findById(id).orElseThrow(TicketNotFoundException::new);
         ticketUpdate.setProblem(dto.problem());
         ticketUpdate.setDescription(dto.description());
         repository.save(ticketUpdate);
@@ -67,7 +66,11 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public void closedTicket(UUID id) {
-        Ticket ticket = repository.findById(id).orElseThrow( () -> new IllegalArgumentException("Ticket não encontrado"));
+        Ticket ticket = repository.findById(id).orElseThrow(TicketNotFoundException::new);
+
+        if (!ticket.getStatusAt().equals(StatusEnums.PROGRESS)){
+            throw new TicketInOpenStatusException();
+        }
         ticket.setStatusAt(StatusEnums.CLOSED);
         ticket.setClosedAt(LocalDateTime.now());
         repository.save(ticket);

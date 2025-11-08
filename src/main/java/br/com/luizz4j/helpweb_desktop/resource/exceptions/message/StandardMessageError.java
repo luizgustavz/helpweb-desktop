@@ -17,7 +17,8 @@ public abstract class StandardMessageError {
 
    public static final String INVALID_DESCRIPTION_NOTBLANK = "Informe uma breve descrição do problema";
    public static final String INVALID_DESCRIPTION_NOTNULL = "Esse campo deve ser preenchido";
-
+   public static final String TICKET_NOT_FOUND = "O ticket não foi encontrado na nossa base de dados";
+   public static final String TICKET_IN_STATUS_OPEN = "O ticket não pode ser fechado sem que esteja em andamento";
 
 
 
