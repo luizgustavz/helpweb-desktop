@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_ticket")
 public class Ticket implements Serializable {
+
     @Serial private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,10 +27,8 @@ public class Ticket implements Serializable {
     @Enumerated(EnumType.STRING)
     private StatusEnums statusAt;
 
-    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     private LocalDateTime closedAt;
@@ -37,30 +36,31 @@ public class Ticket implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_technical")
     private Technical technical;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_client", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_client")
     private Client client;
 
     public Ticket(){};
 
-    public Ticket(UUID id,
-                  String problem,
-                  String description,
-                  StatusEnums statusAt,
-                  LocalDateTime createdAt,
-                  LocalDateTime updatedAt,
-                  LocalDateTime closedAt,
-                  Technical technical,
-                  Client client
+    public Ticket(
+            UUID id,
+            String problem,
+            String description,
+            StatusEnums statusAt,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            LocalDateTime closedAt,
+            Technical technical,
+            Client client
     ) {
-        this.id = id;
-        this.problem = problem;
-        this.description = description;
-        this.statusAt = statusAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.closedAt = closedAt;
-        this.technical = technical;
-        this.client = client;
+            this.id = id;
+            this.problem = problem;
+            this.description = description;
+            this.statusAt = statusAt;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
+            this.closedAt = closedAt;
+            this.technical = technical;
+            this.client = client;
     }
 
     public UUID getId() {
@@ -133,5 +133,16 @@ public class Ticket implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Ticket ticket)) return false;
+        return Objects.equals(id, ticket.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

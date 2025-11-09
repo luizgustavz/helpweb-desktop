@@ -3,15 +3,20 @@ package br.com.luizz4j.helpweb_desktop.domain;
 import br.com.luizz4j.helpweb_desktop.domain.enums.RoleEnums;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_colaborator")
-public abstract class Colaborator implements Serializable {
+public abstract class Colaborator implements Serializable, UserDetails {
+
     @Serial private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +36,7 @@ public abstract class Colaborator implements Serializable {
     @Enumerated(EnumType.STRING)
     private RoleEnums roles;
 
-    public Colaborator() {
-    }
+    public Colaborator() {}
 
     public Colaborator(
             Long id,
@@ -43,7 +47,7 @@ public abstract class Colaborator implements Serializable {
             RoleEnums roles
     ) {
         this.id = id;
-        setName(name);
+        this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.password = password;
@@ -59,10 +63,7 @@ public abstract class Colaborator implements Serializable {
     }
 
     public void setName(String name) {
-       if (name == null || name.isBlank() || name.trim().length() < 6){
-           throw new IllegalArgumentException();
-       }
-       this.name = name.trim();
+        this.name = name;
     }
 
     public String getCpf() {
@@ -98,9 +99,6 @@ public abstract class Colaborator implements Serializable {
     }
 
     public void setRoles(RoleEnums roles) {
-        if (roles == null){
-           this.roles = RoleEnums.COLABORATOR;
-        }
         this.roles = roles;
     }
 
@@ -113,5 +111,35 @@ public abstract class Colaborator implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, cpf);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

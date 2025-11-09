@@ -1,6 +1,6 @@
 package br.com.luizz4j.helpweb_desktop.config.jwt;
 
-import br.com.luizz4j.helpweb_desktop.domain.Client;
+import br.com.luizz4j.helpweb_desktop.domain.Colaborator;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -15,19 +15,18 @@ public class TokenConfig {
 
     private final String SECRET = "secret";
 
-    public String generatedToken(Client obj){
+
+    public String createJWT(Colaborator colaborator){
 
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
-        return JWT
-                .create()
-                .withClaim("id", obj.getId())
-                .withSubject(obj.getEmail())
-                .withExpiresAt(Instant.now().plusMillis(600000))
+        return JWT.create()
+                .withClaim("id", colaborator.getId())
+                .withSubject(colaborator.getEmail())
                 .withIssuedAt(Instant.now())
+                .withExpiresAt(Instant.now().plusMillis(600000))
                 .sign(algorithm);
     }
-
 
     public Optional<JwtUserData> isValidToken(String token){
 
@@ -35,11 +34,10 @@ public class TokenConfig {
 
         try {
             DecodedJWT decode = JWT.require(algorithm).build().verify(token);
-
             return Optional.of(
                     JwtUserData
                         .builder()
-                        .clientId(decode.getClaim("id").asLong())
+                        .colaboratorId(decode.getClaim("id").asLong())
                         .email(decode.getSubject())
                         .build()
             );

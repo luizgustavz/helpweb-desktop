@@ -50,7 +50,7 @@ public class ClientUsecaseImpl implements IClientUsecase {
         UsernamePasswordAuthenticationToken userAndPasswordToken = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         Authentication authentication = authenticationManager.authenticate(userAndPasswordToken);
         Client loginClient = (Client) authentication.getPrincipal();
-        String loginToken = token.generatedToken(loginClient);
+        String loginToken = token.createJWT(loginClient);
         return new LoginResponse(loginToken);
     }
 
