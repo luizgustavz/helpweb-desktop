@@ -21,4 +21,8 @@ spring:
 server:
   port: 9091
 
+logging:
+  level:
+    root: DEBUG
+
 

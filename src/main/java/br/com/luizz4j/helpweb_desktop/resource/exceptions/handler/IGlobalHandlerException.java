@@ -8,6 +8,7 @@ import br.com.luizz4j.helpweb_desktop.exceptions.user.ClientNotFoundException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.PasswordDoesNotMatchException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -34,4 +35,6 @@ public interface IGlobalHandlerException {
     @ExceptionHandler(TicketInOpenStatusException.class)
     ResponseEntity<?> handlerTicketInOpenStatusException(TicketInOpenStatusException ticketInOpenStatusException, HttpServletRequest httpServletRequest);
 
+    @ExceptionHandler(BadCredentialsException.class)
+    ResponseEntity<?> handlerBadCredentialsException(BadCredentialsException badCredentialsException, HttpServletRequest httpServletRequest);
 }

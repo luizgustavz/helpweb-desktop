@@ -12,6 +12,7 @@ import br.com.luizz4j.helpweb_desktop.resource.exceptions.message.StandardMessag
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -108,6 +109,18 @@ public class GlobalHandlerExceptionImpl implements IGlobalHandlerException {
                         .timestamp(LocalDateTime.now())
                         .code(HttpStatus.CONFLICT.value())
                         .error(StandardMessageError.TICKET_IN_STATUS_OPEN)
+                        .path(httpServletRequest.getRequestURI())
+                        .build()
+                );
+    }
+
+    @Override
+    public ResponseEntity<?> handlerBadCredentialsException(BadCredentialsException badCredentialsException, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiError.builder()
+                        .timestamp(LocalDateTime.now())
+                        .code(HttpStatus.UNAUTHORIZED.value())
+                        .error(badCredentialsException.getMessage())
                         .path(httpServletRequest.getRequestURI())
                         .build()
                 );
