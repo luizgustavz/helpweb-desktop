@@ -3,6 +3,7 @@ package br.com.luizz4j.helpweb_desktop.domain;
 import br.com.luizz4j.helpweb_desktop.domain.enums.RoleEnums;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,10 +15,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_colaborator")
-public abstract class Colaborator implements Serializable, UserDetails {
+@Table(name = "tb_users")
+public abstract class User implements Serializable, UserDetails {
 
-    @Serial private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -33,25 +35,32 @@ public abstract class Colaborator implements Serializable, UserDetails {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
+
     @Enumerated(EnumType.STRING)
     private RoleEnums roles;
 
-    public Colaborator() {}
+    public User() {}
 
-    public Colaborator(
+    public User(
             Long id,
             String name,
-            final String cpf,
+            String cpf,
             String email,
             String password,
+            LocalDateTime createAt,
+            LocalDateTime updateAt,
             RoleEnums roles
     ) {
-        this.id = id;
-        this.name = name;
-        this.cpf = cpf;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
+            this.id = id;
+            this.name = name;
+            this.cpf = cpf;
+            this.email = email;
+            this.password = password;
+            this.createAt = createAt;
+            this.updateAt = updateAt;
+            this.roles = roles;
     }
 
     public Long getId() {
@@ -94,17 +103,23 @@ public abstract class Colaborator implements Serializable, UserDetails {
         return createAt;
     }
 
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
     public RoleEnums getRoles() {
         return roles;
     }
 
-    public void setRoles(RoleEnums roles) {
+    public void setRoles(RoleEnums roles){
         this.roles = roles;
     }
 
+    // equals and hashcode
+
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Colaborator that)) return false;
+        if (!(object instanceof User that)) return false;
         return Objects.equals(id, that.id) && Objects.equals(cpf, that.cpf);
     }
 
@@ -112,6 +127,9 @@ public abstract class Colaborator implements Serializable, UserDetails {
     public int hashCode() {
         return Objects.hash(id, cpf);
     }
+
+
+    // user details
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

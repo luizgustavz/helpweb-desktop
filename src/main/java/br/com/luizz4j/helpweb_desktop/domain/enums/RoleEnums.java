@@ -4,7 +4,7 @@ public enum RoleEnums {
 
     ADMIN("0", "role_administrator"),
     TECHNICAL("1" ,"role_technical"),
-    COLABORATOR("2", "role_colaborator");
+    COLLABORATOR("2", "role_colaborator");
 
     private String code;
     private String position;
