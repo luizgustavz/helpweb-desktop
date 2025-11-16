@@ -1,15 +1,22 @@
 package br.com.luizz4j.helpweb_desktop.service.impl;
 
+import br.com.luizz4j.helpweb_desktop.config.jwt.JwtTokenConfiguration;
 import br.com.luizz4j.helpweb_desktop.domain.Client;
 import br.com.luizz4j.helpweb_desktop.domain.Technical;
+import br.com.luizz4j.helpweb_desktop.domain.User;
 import br.com.luizz4j.helpweb_desktop.domain.repository.IClientRepository;
 import br.com.luizz4j.helpweb_desktop.domain.repository.ITechnicalRepository;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.CpfAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.exceptions.user.EmailAlreadyRegisterException;
 import br.com.luizz4j.helpweb_desktop.service.IAuthenticationService;
+import br.com.luizz4j.helpweb_desktop.util.dto.request.LoginUserRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.UserRequestDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.JwtUserResponseDTO;
 import br.com.luizz4j.helpweb_desktop.util.mapper.MapperClient;
 import br.com.luizz4j.helpweb_desktop.util.mapper.MapperTechnical;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +33,27 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     private final MapperTechnical mapperTechnical;
 
+    private final AuthenticationManager authentication;
+
+    private final JwtTokenConfiguration jwtToken;
+
     public AuthenticationServiceImpl(
             IClientRepository clientRepository,
             ITechnicalRepository technicalRepository,
             PasswordEncoder encoder,
             MapperClient mapperClient,
-            MapperTechnical mapperTechnical
+            MapperTechnical mapperTechnical,
+            AuthenticationManager authentication,
+            JwtTokenConfiguration jwtToken
     ){
             this.clientRepository = clientRepository;
             this.technicalRepository = technicalRepository;
             this.encoder = encoder;
             this.mapperClient = mapperClient;
             this.mapperTechnical = mapperTechnical;
+            this.authentication = authentication;
+            this.jwtToken = jwtToken;
+
     }
 
     @Override
@@ -62,7 +78,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         return technicalRepository.save(newTechnical);
     }
 
-    private void validateEmailAndCpf(String email, String cpf){
+    private void validateEmailAndCpf(String email, String cpf) {
 
         if (clientRepository.existsByEmail(email) || technicalRepository.existsByEmail(email)){
             throw new EmailAlreadyRegisterException();
@@ -73,9 +89,19 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         }
     }
 
+    @Override
+    public JwtUserResponseDTO login(LoginUserRequestDTO loginDTO) {
 
+        Authentication authenticated = authentication.authenticate(authentication(loginDTO.email(), loginDTO.password()));
+        User user = (User) authenticated.getPrincipal();
 
+        final String jwt = jwtToken.generateJWT(user);
 
+        return new JwtUserResponseDTO(jwt);
+    }
 
+    private static UsernamePasswordAuthenticationToken authentication(String email, String password) {
 
+        return new UsernamePasswordAuthenticationToken(email, password);
+    }
 }

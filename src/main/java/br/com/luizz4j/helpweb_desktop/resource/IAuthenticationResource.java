@@ -1,7 +1,8 @@
 package br.com.luizz4j.helpweb_desktop.resource;
 
+import br.com.luizz4j.helpweb_desktop.util.dto.request.LoginUserRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.UserRequestDTO;
-import br.com.luizz4j.helpweb_desktop.util.dto.response.UserResponseDTO;
+import br.com.luizz4j.helpweb_desktop.util.dto.response.JwtUserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,4 +17,7 @@ public interface IAuthenticationResource {
 
     @PostMapping("/technical")
     ResponseEntity<Void> createTechnical(@Valid @RequestBody UserRequestDTO requestDTO);
+
+    @PostMapping("/login")
+    ResponseEntity<JwtUserResponseDTO> login(@Valid @RequestBody LoginUserRequestDTO requestDTO);
 }
