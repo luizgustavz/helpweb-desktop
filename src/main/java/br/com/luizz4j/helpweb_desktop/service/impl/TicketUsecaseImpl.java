@@ -1,15 +1,15 @@
-package br.com.luizz4j.helpweb_desktop.usecase.impl;
+package br.com.luizz4j.helpweb_desktop.service.impl;
 
 import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.domain.enums.StatusEnums;
 import br.com.luizz4j.helpweb_desktop.domain.repository.ITicketRepository;
 import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketInOpenStatusException;
 import br.com.luizz4j.helpweb_desktop.exceptions.ticket.TicketNotFoundException;
-import br.com.luizz4j.helpweb_desktop.usecase.ITicketUsecase;
+import br.com.luizz4j.helpweb_desktop.service.ITicketUsecase;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;
-import br.com.luizz4j.helpweb_desktop.util.mapper.IMapper;
+import br.com.luizz4j.helpweb_desktop.util.mapper.MapperTicket;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,18 +20,23 @@ import java.util.UUID;
 public class TicketUsecaseImpl implements ITicketUsecase {
 
     private final ITicketRepository repository;
-    private final IMapper mapper;
+    private final MapperTicket mapper;
 
-    public TicketUsecaseImpl(ITicketRepository repository, IMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    public TicketUsecaseImpl(
+            ITicketRepository repository,
+            MapperTicket mapper
+    ) {
+            this.repository = repository;
+            this.mapper = mapper;
     }
 
     // method: created ticket
 
     @Override
     public void createTicket(TicketRequestDTO dto) {
+
         Ticket ticket = mapper.fromTicket(dto);
+
         ticket.setStatusAt(StatusEnums.OPEN);
         repository.save(ticket);
     }
@@ -40,6 +45,7 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public List<TicketResponseDTO> listTicketOPEN() {
+
         List<Ticket> listTicketsByStatusOPEN = repository.findByStatus(StatusEnums.OPEN);
         return mapper.fromListTicketResponseDTO(listTicketsByStatusOPEN);
     }
@@ -48,7 +54,9 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public TicketResponseDTO findById(UUID id) {
-        Ticket currentTicket = repository.findById(id).orElse(null);
+
+        Ticket currentTicket = repository.findById(id).orElseThrow(TicketNotFoundException::new);
+
         return mapper.fromTicketDTO(currentTicket);
     }
 
@@ -56,9 +64,12 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public void changeTicket(UUID id, ChangeTicketDTO dto) {
+
         Ticket ticketUpdate = repository.findById(id).orElseThrow(TicketNotFoundException::new);
+
         ticketUpdate.setProblem(dto.problem());
         ticketUpdate.setDescription(dto.description());
+
         repository.save(ticketUpdate);
     }
 
@@ -66,11 +77,13 @@ public class TicketUsecaseImpl implements ITicketUsecase {
 
     @Override
     public void closedTicket(UUID id) {
+
         Ticket ticket = repository.findById(id).orElseThrow(TicketNotFoundException::new);
 
         if (!ticket.getStatusAt().equals(StatusEnums.PROGRESS)){
             throw new TicketInOpenStatusException();
         }
+
         ticket.setStatusAt(StatusEnums.CLOSED);
         ticket.setClosedAt(LocalDateTime.now());
         repository.save(ticket);

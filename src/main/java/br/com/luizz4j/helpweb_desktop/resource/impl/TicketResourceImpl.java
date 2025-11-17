@@ -1,7 +1,7 @@
 package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.ITicketResource;
-import br.com.luizz4j.helpweb_desktop.usecase.impl.TicketUsecaseImpl;
+import br.com.luizz4j.helpweb_desktop.service.impl.TicketUsecaseImpl;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;

@@ -1,6 +1,5 @@
-package br.com.luizz4j.helpweb_desktop.usecase;
+package br.com.luizz4j.helpweb_desktop.service;
 
-import br.com.luizz4j.helpweb_desktop.domain.Ticket;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.ChangeTicketDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.ticket.TicketRequestDTO;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.ticket.TicketResponseDTO;

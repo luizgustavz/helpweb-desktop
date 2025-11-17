@@ -1,7 +1,7 @@
 package br.com.luizz4j.helpweb_desktop.resource.impl;
 
 import br.com.luizz4j.helpweb_desktop.resource.IClientResourses;
-import br.com.luizz4j.helpweb_desktop.usecase.IClientUsecase;
+import br.com.luizz4j.helpweb_desktop.service.IClientService;
 import br.com.luizz4j.helpweb_desktop.util.dto.request.client.ChangePasswordDefaultRequest;
 import br.com.luizz4j.helpweb_desktop.util.dto.response.client.ClientResponse;
 import org.springframework.http.HttpStatus;
@@ -13,9 +13,9 @@ import java.util.List;
 @RestController
 public class ClientResourceImpl implements IClientResourses {
 
-    private final IClientUsecase usecase;
+    private final IClientService usecase;
 
-    public ClientResourceImpl(IClientUsecase usecase) {
+    public ClientResourceImpl(IClientService usecase) {
         this.usecase = usecase;
     }
 
