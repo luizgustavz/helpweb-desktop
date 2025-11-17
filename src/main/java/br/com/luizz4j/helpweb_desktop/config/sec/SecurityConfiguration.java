@@ -16,27 +16,33 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfiguration {
 
-    private final SecurityFilter securityFilter;
+    private final SecurityFilterChainConfiguration securityFilterChainConfiguration;
 
-    public SecurityConfig(SecurityFilter securityFilter) {
-        this.securityFilter = securityFilter;
+    public SecurityConfiguration(
+            SecurityFilterChainConfiguration securityFilterChainConfiguration
+    ) {
+            this.securityFilterChainConfiguration = securityFilterChainConfiguration;
     }
 
 
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
+
         return http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configure(http))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        auth -> auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                                .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .authorizeHttpRequests(auth -> auth
+
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .anyRequest().authenticated())
+
+                .addFilterBefore(securityFilterChainConfiguration, UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
