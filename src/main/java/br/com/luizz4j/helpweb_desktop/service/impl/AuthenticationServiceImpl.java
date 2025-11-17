@@ -1,6 +1,6 @@
 package br.com.luizz4j.helpweb_desktop.service.impl;
 
-import br.com.luizz4j.helpweb_desktop.config.jwt.JwtTokenConfiguration;
+import br.com.luizz4j.helpweb_desktop.config.jwt.JwtConfiguration;
 import br.com.luizz4j.helpweb_desktop.domain.Client;
 import br.com.luizz4j.helpweb_desktop.domain.Technical;
 import br.com.luizz4j.helpweb_desktop.domain.User;
@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     private final AuthenticationManager authentication;
 
-    private final JwtTokenConfiguration jwtToken;
+    private final JwtConfiguration jwtConfiguration;
 
     public AuthenticationServiceImpl(
             IClientRepository clientRepository,
@@ -44,7 +44,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             MapperClient mapperClient,
             MapperTechnical mapperTechnical,
             AuthenticationManager authentication,
-            JwtTokenConfiguration jwtToken
+            JwtConfiguration jwtConfiguration
     ){
             this.clientRepository = clientRepository;
             this.technicalRepository = technicalRepository;
@@ -52,7 +52,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             this.mapperClient = mapperClient;
             this.mapperTechnical = mapperTechnical;
             this.authentication = authentication;
-            this.jwtToken = jwtToken;
+            this.jwtConfiguration = jwtConfiguration;
 
     }
 
@@ -92,16 +92,16 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     @Override
     public JwtUserResponseDTO login(LoginUserRequestDTO loginDTO) {
 
-        Authentication authenticated = authentication.authenticate(authentication(loginDTO.email(), loginDTO.password()));
+        Authentication authenticated = authenticationUser(loginDTO);
         User user = (User) authenticated.getPrincipal();
 
-        final String jwt = jwtToken.generateJWT(user);
+        final String jwt = jwtConfiguration.generateJWT(user);
 
         return new JwtUserResponseDTO(jwt);
     }
 
-    private static UsernamePasswordAuthenticationToken authentication(String email, String password) {
+    private Authentication authenticationUser(LoginUserRequestDTO loginDto) {
 
-        return new UsernamePasswordAuthenticationToken(email, password);
+        return authentication.authenticate(new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.password()));
     }
 }
